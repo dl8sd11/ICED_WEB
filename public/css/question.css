@@ -1,0 +1,16 @@
+body{
+  background-color: #222;
+}
+h2{
+  color: #FFF;
+}
+ul{
+  padding: 0px;
+}
+li{
+  margin-top: 10px;
+  padding: 10px;
+  color: #222;
+  background-color: #FFF;
+  list-style:none;
+}

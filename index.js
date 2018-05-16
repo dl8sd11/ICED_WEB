@@ -1,0 +1,58 @@
+var express = require('express');
+const fileUpload = require('express-fileupload');
+var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+var fs = require('fs');
+var util = require('util');
+
+var obj;
+app.use(express.static('public'));
+app.use(fileUpload());
+
+fs.readFile('question.json', 'utf8', function (err, data) {
+  if (err) throw err;
+  obj = JSON.parse(data);
+  console.log(obj);
+});
+
+
+app.get('/', function (req, res) {
+   res.send('Hello World');
+})
+app.post('/upload',function(req,res){
+  if(!req.files)
+    return res.status(400).send('No files were uploaded.');
+  let code = req.files.code;
+  code.mv('./codes/'+code.name,function(err){
+    if(err)
+      return res.status(500).send(err);
+    res.send('File uploaded');
+  });
+});
+server.listen(8080);
+
+io.on('connection',function(client){
+  client.on('getQs',function(data){
+    client.emit('sendQs',obj);
+  });
+  client.on('newQ',function(data){
+    data.id=obj.cnt;
+    obj.questions.push(data);
+    obj.cnt++;
+    fs.writeFileSync('./question.json',JSON.stringify(obj),'utf-8');
+    io.sockets.emit('sendQs',obj);
+
+  });
+})
+
+var stdin = process.openStdin();
+
+stdin.addListener("data", function(d) {
+  let input = d.toString().trim();
+  if(input=="/clearall"){
+    obj={"cnt":0,"questions":[]};
+    fs.writeFileSync('./question.json',JSON.stringify(obj),'utf-8');
+    io.sockets.emit('sendQs',obj);
+  }
+});

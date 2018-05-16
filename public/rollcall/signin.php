@@ -1,0 +1,37 @@
+<?php setcookie('signin',"0");?>
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>合唱團點名系統</title>
+<link href="style.css" rel="stylesheet" type="text/css">
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+<body bgcolor="#E5E5E5">
+<header class="header">
+  <div class="title"><a href="#"><strong style="color: white;"><br><h1>合唱團點名系統</h1></strong></a><!--<span class="signout" style="color: red;"><a href="signin.html"><h4>---登出---</h4></a></span>--></div>
+  </header>
+<main class="main">
+<div class="row">
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4" align="center"><div class="check_form" align="center">
+    <img src="images/icon.png" width="250" height="250" alt=""/><br><br>
+<form action="index.php" method="post">
+  <input name="rootID" type="text" id="rootID" placeholder="帳號"><br>
+    <input name="rootPW" type="password" id="rootPW" placeholder="密碼"><br><br>
+    <input type="submit" formaction="index.php" formmethod="POST" value="登入">
+  </form></div></div>
+    <div class="col-lg-4"></div>
+  </div>
+</main>
+<footer class="footer"><h4>Power By &copy;ICED</h4></footer>
+</body>
+</html>

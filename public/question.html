@@ -1,0 +1,72 @@
+<html>
+<head>
+  <title>提問區beta</title>
+  <script src="js/vue.js"></script>
+  <script src="js/socket.io.js"></script>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/question.css">
+</head>
+<body>
+  <div id="App">
+    <div class="container">
+      <h2>{{group}}提問區</h2>
+      <textarea class="form-control" v-model="qText" aria-label="你的問題"></textarea>
+      <input type="text" v-model="qName">
+      <button class="btn" v-on:click="submit">Submit</button>
+
+      <div v-if="obj">
+        <ul>
+          <li v-for="question in obj.questions">
+            {{question.name}} 在{{question.time}}問:
+            <br>
+            {{question.text}}
+            <div v-if="question.answer">
+              <hr>
+              回覆:<br>
+              {{question.answer}}
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+  <script>
+  var socket = io.connect("http://140.126.248.210:8080");
+
+  var app = new Vue({
+   el: '#App',
+   data: {
+       group: '應用組',
+       obj: null,
+       qName: null,
+       qText: null
+     },
+   methods: {
+     updateQs: function(event) {
+        socket.emit('getQs','plz');
+     },
+     submit: function(){
+       var d = new Date();
+       socket.emit('newQ',{
+         "name":(this.qName?this.qName:'匿名者'),
+         "text":this.qText,
+         "answer":null,
+         "time": d.getHours() +":"+ d.getMinutes()
+       });
+       this.qName = '';
+       this.qText = '';
+     }
+   }
+  })
+
+  socket.on('connect',function(data){
+    socket.emit('join','Hello World');
+    socket.emit('getQs','plz');
+  });
+  socket.on('sendQs',function(data){
+    app.obj = data;
+  });
+  </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+@charset "utf-8";
+/* CSS Document */
+.header{
+	background-color: #696969;
+	border-bottom-width: medium;
+	border-bottom-color: #000000;
+	font-family: '微軟正黑體', '新細明體', 'Arial Unicode MS';
+	height: 150px;
+}
+.title {
+	text-align: center;
+}
+.signout {
+	
+}
+
+.main {
+	background-color: #E5E5E5;
+	height: 500px;
+	position:static;
+}
+.main1 {
+	background-color: #E5E5E5;
+	position:static;
+	height: 2000px;
+}
+.content {
+	position:static;
+	width:50%;
+	float:left;
+}
+.check_form {
+	font-family: "微軟正黑體", "新細明體", "Arial Unicode MS";
+	border:2px #ccc solid;
+	border-radius:10px;
+	width:360px;
+	background-color:#eee;
+	height: 400px;
+	position: relative;
+	top: 50px;
+}
+.leave_form {
+	font-family: "微軟正黑體", "新細明體", "Arial Unicode MS";
+	border:2px #ccc solid;
+	border-radius:10px;
+	width:360px;
+	background-color:#eee;
+	height: 600px;
+}
+.footer {
+	height: 50px;
+	background-color: #000000;
+	text-align: right;
+}
+.chart {
+	float:right;
+}
+.rollcall_start {
+	position: absolute;
+	top:0px;
+	left: 0px;
+}
+.setting_insert {
+	width: 50%;
+}
+.setting_del {
+	width: 50%;
+}
+.rollcall_status {
+	float: left;
+	width: 50%;
+}
+.rocall_bussy {
+	float: right;
+	width: 50%;
+}
