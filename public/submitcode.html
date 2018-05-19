@@ -1,12 +1,48 @@
 <html>
+  <head>
+    <title>交作業區</title>
+    <link rel="stylesheet" href="./css/submit_code.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+  </head>
   <body>
-    <form ref='uploadForm'
+    <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+      <a class="navbar-brand" href="#">社員專區</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="./question.html">提問區</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#">交作業區<span class="sr-only">(current)</span></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <br>
+      <div class="row">
+
+      </div>
+      <form ref='uploadForm'
       id='uploadForm'
       action='http://140.126.248.210:8080/upload'
       method='post'
       encType="multipart/form-data">
-        <input type="file" name="code" />
-        <input type='submit' value='Upload!' />
+        <label for="name">姓名</label>
+        <div class="input-group">
+          <input type="text" id="name" class="form-control" placeholder="Name">
+        </div>
+        <label for="verify">驗證碼</label>
+        <div class="input-group">
+          <input type="text" id="verify" class="form-control" placeholder="Code">
+        </div>
+      <input type="file" name="code" />
+      <input type='submit' value='Upload!' />
     </form>
+    </div>
   </body>
 </html>
