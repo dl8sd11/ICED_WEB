@@ -29,7 +29,7 @@ app.post('/upload',function(req,res){
     res.send('File uploaded');
   });
 });
-server.listen(8080);
+server.listen(80);
 
 io.on('connection',function(client){
   client.on('getQs',function(data){
