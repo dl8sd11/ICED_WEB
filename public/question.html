@@ -28,10 +28,13 @@
   <div id="App">
     <div class="container">
       <h2>{{group}}提問區</h2>
-      
-      <textarea class="form-control" v-model="qText" aria-label="你的問題"></textarea>
-      <input type="text" v-model="qName">
-      <button class="btn" v-on:click="submit">Submit</button>
+      <label for="name">姓名</label>
+      <div class="input-group">
+        <input type="text" v-model="qName" id="name" class="form-control" placeholder="匿名者">
+      </div>
+      <label for="question">你的問題</label>
+      <textarea class="form-control" v-model="qText" aria-label="你的問題" placeholder="你的問題"></textarea>
+      <button class="btn btn-primary" v-on:click="submit">Submit</button>
 
       <div v-if="obj">
         <ul>
@@ -73,7 +76,7 @@
          "answer":null,
          "time": d.getHours() +":"+ d.getMinutes()
        });
-
+       this.qName = '';
        this.qText = '';
      }
    }
