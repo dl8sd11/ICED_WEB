@@ -58,6 +58,35 @@ io.on('connection',function(client){
     if(query)client.emit('update_members',query);
     else client.emit('update_members',null);
   });
+  client.on("send_code",function(data){
+    let query = null;
+    let now;
+    for(let i=0;i<group_code.group_cnt;i++){
+      now = group_code.groups[i];
+      for(let j=0;j<now.members.length;j++){
+        if(now.members[j]==data.name)query=now;
+      }
+    }
+    if(query){
+      if(data.vcode==query.code){
+        client.emit('send_success',true);
+        let dir = "./codes/"+data.name;
+        if (!fs.existsSync(dir)){
+          fs.mkdirSync(dir);
+        }
+        fs.writeFile(dir+"/"+Math.floor(Date.now() / 1000)+".py", data.source_code, function(err) {
+            if(err) {
+                return console.log(err);
+            }
+            console.log("The file from "+data.name+" was saved!");
+        }); 
+      } else {
+        client.emit('send_success',false);
+      }
+    } else {
+      client.emit("update_members",null);
+    }
+  });
 })
 
 var stdin = process.openStdin();
