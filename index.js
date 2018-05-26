@@ -14,6 +14,10 @@ fs.readFile('question.json', 'utf8', function (err, data) {
   if (err) throw err;
   obj = JSON.parse(data);
 });
+fs.readFile('group_code.json', 'utf8', function (err, data) {
+  if (err) throw err;
+  group_code = JSON.parse(data);
+});
 
 
 app.get('/', function (req, res) {
@@ -42,6 +46,17 @@ io.on('connection',function(client){
     fs.writeFileSync('./question.json',JSON.stringify(obj),'utf-8');
     io.sockets.emit('sendQs',obj);
 
+  });
+  client.on("check_members",function(data){
+    let query = null;
+    for(let i=0;i<group_code.group_cnt;i++){
+      let now = group_code.groups[i];
+      for(let j=0;j<now.members.length;j++){
+        if(now.members[j]==data)query=now.members;
+      }
+    }
+    if(query)client.emit('update_members',query);
+    else client.emit('update_members',null);
   });
 })
 
