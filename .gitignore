@@ -1,0 +1,4 @@
+node_modules
+!.gitignore
+group_code.json
+question.json
