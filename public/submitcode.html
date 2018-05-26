@@ -36,11 +36,14 @@
         <div class="form-row">
           <div class="col-md-6">
             <label for="name">姓名</label>
-            <input type="text" id="name" v-model="name" class="form-control" placeholder="Name">
+            <input type="text" id="name" v-model="name" class="form-control" v-bind:class="{'is-valid' : name_valid,'is-invalid' : name_invalid}" placeholder="Name">
+            <div class="valid-feedback">存在</div>
+            <div class="invalid-feedback">請重新檢查</div>
           </div>
           <div class="col-md-6"> 
             <label for="verify">驗證碼</label>
-            <input type="text" id="verify" v-model="vcode" class="form-control" placeholder="Code">
+            <input type="text" id="verify" v-model="vcode" class="form-control" v-bind:class="{'is-valid' : code_valid,'is-invalid' : code_invalid}" placeholder="Code">
+            <div class="invalid-feedback">很爛嘛</div>
           </div>
   
   
@@ -81,15 +84,25 @@
             name:"",
             vcode:"",
             members:null,
-            check_404:false
+            check_404:false,
+            name_invalid:false,
+            name_valid:false,
+            code_valid:false,
+            code_invalid:false
           },
         methods: {
           check_members: function(event) {
               socket.emit('check_members',app.name);
           },
           sub: function(event) {
-            if(name==""||check_404){
-              
+            if(name==""){
+              name_invalid = true;
+              name_valid = false;
+              event.preventDefault();
+            } else if(check_404) {
+              code_invalid = true;
+              code_valid = flase;
+              event.preventDefault();
             }
           }
         }
@@ -99,10 +112,14 @@
         console.log(data);
         if(data) {
           app.members = data;
-          app.check_404=false;
+          app.check_404 = false;
+          app.name_invalid = false;
+          app.name_valid = true;
         } else {
           app.check_404=true;
           app.members=null;
+          app.name_invalid = true;
+          app.name_valid = false;
         }
       });
     </script>
