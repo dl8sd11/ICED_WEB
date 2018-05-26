@@ -1,0 +1,15 @@
+{
+    "group_cnt":2,
+    "groups":[
+        {
+            "id":0,
+            "members":["Tom","Jerry"],
+            "code":"EEUA"
+        },
+        {
+            "id":1,
+            "members":["Xor","Nor"],
+            "code":"U4J6"
+        }  
+    ]
+}
