@@ -39,32 +39,42 @@
         v-on:submit="sub"
         method='post'
         encType="multipart/form-data">
-        <div class="form-row">
-          <div class="col-md-6">
-            <label for="name">姓名</label>
-            <input type="text" id="name" v-model="name" class="form-control" v-bind:class="{'is-valid' : name_valid,'is-invalid' : name_invalid}" placeholder="Name">
-            <div class="valid-feedback">存在</div>
-            <div class="invalid-feedback">請重新檢查</div>
+        <div>
+          <div class="form-row">
+            <div class="col-md-6">
+              <label for="name">姓名</label>
+              <input type="text" id="name" v-model="name" class="form-control" v-bind:class="{'is-valid' : name_valid,'is-invalid' : name_invalid}" placeholder="Name">
+              <div class="valid-feedback">存在</div>
+              <div class="invalid-feedback">請重新檢查</div>
+            </div>
+            <div class="col-md-6"> 
+              <label for="verify">驗證碼</label>
+              <input type="text" id="verify" v-model="vcode" class="form-control" v-bind:class="{'is-valid' : code_valid,'is-invalid' : code_invalid}" placeholder="Code">
+              <div class="invalid-feedback">很爛嘛</div>
+            </div>
           </div>
-          <div class="col-md-6"> 
-            <label for="verify">驗證碼</label>
-            <input type="text" id="verify" v-model="vcode" class="form-control" v-bind:class="{'is-valid' : code_valid,'is-invalid' : code_invalid}" placeholder="Code">
-            <div class="invalid-feedback">很爛嘛</div>
+          <br>
+          <div class="form-row">
+            <div class="col-md-3">
+       
+              <select v-model="homework" class="custom-select">
+                <option disabled value="">Please select one</option>
+                <option v-for="hw in homework_options">{{hw}}</option>
+              </select>
+            </div>
+            <div class="col-md-3 offset-md-6">
+              <div class="row">
+                <div class="col-md-3 offset-md-3">
+                  <input class="btn btn-primary" v-on:click=" check_members" type="button" value='確認組員'>
+                </div>
+                <div class="col-md-3">
+                  <input class="btn btn-primary" style="margin-left: 25px" type='submit' value='確認上傳'>
+                </div>
+              </div>
+              
+            </div>
           </div>
   
-  
-          <div class="col-md-3">
-            <br>
-            <input class="form-control-file" type="file" name="code">
-          </div>
-          <div class="col-md-3">
-            <br>
-            <input class="btn btn-primary" v-on:click="check_members" type="button" value='確認組員'>
-          </div>
-          <div class="col-md-3">
-            <br>
-            <input class="btn btn-primary" type='submit' value='確認上傳'>
-          </div>
         </div>
       </form>
       <div>
@@ -106,7 +116,9 @@
             code_invalid:false,
             source_code:"",
             send_success:false,
-            code_empty : false
+            code_empty : false,
+            homework: "",
+            homework_options:[]
           },
         methods: {
           check_members: function(event) {
@@ -131,6 +143,9 @@
         }
       });
       var socket = io.connect(window.location.origin);
+      socket.on('init',function(){
+        socket.emit('request_homework_update',true);
+      });
       socket.on('update_members',function(data){
         console.log(data);
         if(data) {
@@ -156,6 +171,10 @@
           editor.setValue("",0);
           editor.hide();
         }
+      });
+      socket.on('update_homework_options',function(data){
+        console.log("update_hwops");
+        app.homework_options = data;
       });
     </script>
     <script src="/js/ace.js" type="text/javascript" charset="utf-8"></script>
