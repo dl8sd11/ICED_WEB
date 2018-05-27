@@ -57,10 +57,11 @@
           <div class="form-row">
             <div class="col-md-3">
        
-              <select v-model="homework" class="custom-select">
+              <select v-model="homework" class="custom-select" v-bind:class="{'is-invalid' : homework_invalid}">
                 <option disabled value="">Please select one</option>
                 <option v-for="hw in homework_options">{{hw}}</option>
               </select>
+              <div class="invalid-feedback">必選</div>
             </div>
             <div class="col-md-3 offset-md-6">
               <div class="row">
@@ -114,6 +115,7 @@
             name_valid:false,
             code_valid:false,
             code_invalid:false,
+            homework_invalid:false,
             source_code:"",
             send_success:false,
             code_empty : false,
@@ -134,9 +136,11 @@
               app.code_valid = false;
             }  else if(editor.getValue()==""||editor.getValue()=="#place your code here"){
               app.code_empty = true;
+            } else if(app.homework==""){
+              app.homework_invalid = true;
             }else {
               console.log(editor.getValue());
-              socket.emit('send_code',{"name":app.name,"vcode":app.vcode,"source_code":editor.getValue()});
+              socket.emit('send_code',{"name":app.name,"vcode":app.vcode,"homework":app.homework,"source_code":editor.getValue()});
             }
             event.preventDefault();
           }

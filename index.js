@@ -36,9 +36,7 @@ app.post('/upload',function(req,res){
 server.listen(80);
 
 io.on('connection',function(client){
-  client.on('getQs',function(data){
-    client.emit('sendQs',obj);
-  });
+  client.emit('init',true);
   client.on('newQ',function(data){
     data.id=obj.cnt;
     obj.questions.push(data);
@@ -70,7 +68,7 @@ io.on('connection',function(client){
     if(query){
       if(data.vcode==query.code){
         client.emit('send_success',true);
-        let dir = "./codes/"+data.name;
+        let dir = "./codes/"+data.homework+"/"+data.name;
         if (!fs.existsSync(dir)){
           fs.mkdirSync(dir);
         }
@@ -87,6 +85,17 @@ io.on('connection',function(client){
       client.emit("update_members",null);
     }
   });
+  client.on('request_homework_update',function(){
+    let homework_options = [];
+    fs.readdir('./codes',function(err,files){
+      if(err)throw err;
+      for(let i=0;i<=files.length;i++){
+        if(i==files.length)client.emit('update_homework_options',homework_options);
+        else if(files[i][0]!='.')homework_options.push(files[i]);
+      } 
+    });
+    
+  })
 })
 
 var stdin = process.openStdin();
