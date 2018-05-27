@@ -37,7 +37,6 @@
         <form ref='uploadForm'
         id='uploadForm'
         v-on:submit="sub"
-        action='http://0.0.0.0/upload'
         method='post'
         encType="multipart/form-data">
         <div class="form-row">
@@ -131,7 +130,7 @@
           }
         }
       });
-      var socket = io.connect("http://0.0.0.0:80");
+      var socket = io.connect(window.location.origin);
       socket.on('update_members',function(data){
         console.log(data);
         if(data) {
@@ -149,6 +148,8 @@
       });
       socket.on('send_success',function(data){
         if(data==true){
+          app.code_empty = false;
+          app.members = null;
           app.send_success = true;
           app.name_invalid = false;
           app.check_404 = false;
