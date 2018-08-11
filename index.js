@@ -45,6 +45,9 @@ io.on('connection',function(client){
     io.sockets.emit('sendQs',obj);
 
   });
+  client.on('getQs',function(){
+    client.emit('sendQs',obj);
+  });
   client.on("check_members",function(data){
     let query = null;
     for(let i=0;i<group_code.group_cnt;i++){
